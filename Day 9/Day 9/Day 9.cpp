@@ -2,6 +2,7 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
+#include <chrono>
 
 using namespace std;
 
@@ -78,17 +79,21 @@ int main(int argc, char** argv)
 	double max_length = 25;
 	double funky_numby = NULL;
 
+	auto start = chrono::high_resolution_clock::now();
 	while (inputFile >> x) {
 		double number = stod(x);
 		if (checkSum(number, &lines, 1639024365)) {
 			break;
 		}
 	}
+	auto stop = chrono::high_resolution_clock::now();
 	inputFile.close();
 
 	vector<double> minMax = findMinMax(lines);
 
+	auto duration = chrono::duration_cast<chrono::milliseconds>(stop - start);
 	cout.precision(20);
-	cout << minMax[0] + minMax[1];
+	cout << minMax[0] + minMax[1] << endl;
+	cout << duration.count() << endl;
 
 }
